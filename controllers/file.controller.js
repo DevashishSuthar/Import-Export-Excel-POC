@@ -3,7 +3,7 @@ const path = require('path');
 const { BAD_REQUEST } = require('../constants/http-status-code.constant');
 const { FILE_MESSAGES, COMMON_MESSAGES } = require('../constants/messages.constant');
 const apiHelper = require('../helpers/api.helper');
-const { readFile, generateExcelFileFromJson } = require('../helpers/utils.helper');
+const { readFile,deleteFile, generateExcelFileFromJson } = require('../helpers/utils.helper');
 
 const convertJsonToExcelFile = async (req, res) => {
     try {
@@ -16,10 +16,11 @@ const convertJsonToExcelFile = async (req, res) => {
         }
         const { path: filePath } = file;
         const jsonStringifyFileData = await readFile(path.join(__dirname, '..', filePath));
+        deleteFile(filePath);
         if (jsonStringifyFileData) {
             const parseFileData = JSON.parse(jsonStringifyFileData);
             const uniqueKeysForHeader = Object.keys(parseFileData.reduce((result, obj) => Object.assign(result, obj), {}));
-            const excelFilePath = await generateExcelFileFromJson({ uniqueKeysForHeader, parseFileData });
+            const excelFilePath = await generateExcelFileFromJson({ uniqueKeys:uniqueKeysForHeader, parseFileData });
             return apiHelper.success(res, FILE_MESSAGES.GENERATE_EXCEL, { excelFilePath });
         }
         return apiHelper.failure(res, FILE_MESSAGES.GENERATE_EXCEL_ERROR, [], BAD_REQUEST);

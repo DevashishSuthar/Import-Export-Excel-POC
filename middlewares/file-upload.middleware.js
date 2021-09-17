@@ -14,7 +14,7 @@ const getFileExtension = (file) => {
 const setFileName = (req, file, cb) => {
     const fileExt = getFileExtension(file);
     cb(null, `${file.fieldname}-${Date.now()}.${fileExt}`);
-}
+};
 
 const setDestinationForFile = (destinationPath) => {
     return (req, file, cb) => cb(null, destinationPath);

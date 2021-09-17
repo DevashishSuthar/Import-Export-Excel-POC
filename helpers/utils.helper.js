@@ -3,7 +3,8 @@ const path = require('path');
 const ExcelJS = require('exceljs');
 
 const { FILE_DIRECTORIES } = require('../constants/global.constant');
-const { PUBLIC_DIR, FILES_DIR } = FILE_DIRECTORIES;
+
+const { PUBLIC_DIR, ASSETS_DIR, EXCELS_DIR } = FILE_DIRECTORIES;
 
 const workbook = new ExcelJS.Workbook();
 
@@ -15,7 +16,7 @@ const generateExcelFileFromJson = async (data) => {
             return { header: key, key, width: 20 };
         });
         worksheet.addRows(parseFileData);
-        const excelFilePath = `${FILES_DIR}/csv-${Date.now()}.csv`;
+        const excelFilePath = `${ASSETS_DIR}/${EXCELS_DIR}/csv-${Date.now()}.csv`;
         await workbook.csv.writeFile(path.join(__dirname, '..', PUBLIC_DIR, excelFilePath));
         return excelFilePath;
     } catch (error) {
@@ -27,7 +28,14 @@ const readFile = (dirPath) => {
     return fs.readFileSync(dirPath, { encoding: 'utf-8' });
 };
 
+const deleteFile = (filePath) => {
+    return fs.unlink(filePath, (err) => {
+        if (err) throw error;
+    });
+};
+
 module.exports = {
     readFile,
+    deleteFile,
     generateExcelFileFromJson
 };
