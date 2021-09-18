@@ -24,7 +24,7 @@ const convertJsonToExcelFile = async (req, res) => {
             return apiHelper.failure(res, COMMON_MESSAGES.FILE_REQUIRED, [], BAD_REQUEST);
         }
         const { path: filePath } = file;
-        const { generatedFileType } =JSON.parse(JSON.stringify(body));
+        const { generatedFileType } = JSON.parse(JSON.stringify(body));
         const jsonStringifyFileData = await readFile(path.join(__dirname, '..', filePath));
         deleteFile(filePath);
         if (jsonStringifyFileData) {
