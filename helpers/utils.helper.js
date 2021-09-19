@@ -3,15 +3,14 @@ const path = require('path');
 const ExcelJS = require('exceljs');
 const excelToJson = require('convert-excel-to-json');
 
-const { FILE_DIRECTORIES, GENERATED_FILE_TYPES  } = require('../constants/global.constant');
+const { FILE_DIRECTORIES, GENERATED_FILE_TYPES } = require('../constants/global.constant');
 
 const { PUBLIC_DIR, ASSETS_DIR, EXCELS_DIR } = FILE_DIRECTORIES;
-
-const workbook = new ExcelJS.Workbook();
 
 const generateExcelFileFromJson = async (data) => {
     try {
         const { uniqueKeys, parseFileData, generatedFileType } = data;
+        const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet(`Sheet-${Date.now()}`);
         worksheet.columns = uniqueKeys.map(key => {
             return { header: key, key, width: 20 };
@@ -27,7 +26,7 @@ const generateExcelFileFromJson = async (data) => {
     }
 };
 
-const generateJsonFileFromExcel =  (data) => {
+const generateJsonFileFromExcel = (data) => {
     const { filePath } = data;
     const jsonFileData = excelToJson({
         sourceFile: filePath,
