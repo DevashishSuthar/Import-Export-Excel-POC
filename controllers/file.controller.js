@@ -62,9 +62,9 @@ const convertExcelToJsonFile = async (req, res) => {
                 filePath: path.join(__dirname, '..', PUBLIC_DIR, baseFilePath),
                 fileData: JSON.stringify(jsonFileData)
             });
-            return apiHelper.success(res, FILE_MESSAGES.GENERATE_EXCEL, { jsonFilePath: baseFilePath });
+            return apiHelper.success(res, FILE_MESSAGES.GENERATE_JSON, { jsonFilePath: baseFilePath });
         }
-        return apiHelper.failure(res, FILE_MESSAGES.GENERATE_EXCEL_ERROR, [], BAD_REQUEST);
+        return apiHelper.failure(res, FILE_MESSAGES.GENERATE_JSON_ERROR, [], BAD_REQUEST);
     } catch (error) {
         return apiHelper.failure(res, error.message);
     }
